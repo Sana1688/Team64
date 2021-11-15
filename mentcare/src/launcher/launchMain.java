@@ -1,6 +1,7 @@
 package launcher;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -24,6 +26,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -32,163 +35,42 @@ import javafx.scene.text.Text;
 public class launchMain extends Application {
 	
 	
-	Scene sceneMain, scene2, scene3, scene4;
+	Scene sceneMain, scene2, scene3, scene4, scene5, DoctorPatientInfo, AddOrderViewPaneScene, DoctorMessagesViewScene, 
+	doctorViewScene, AddHealthInfoViewScene, DoctorCalendarScene, DoctorPerscriptionScene, NursePatientInfoScene, NurseMessageScene, 
+	NurseMyAccountScene, NurseCalendarScene, NurseAddInfoScene;
 
 		@Override
 		public void start(Stage primaryStage) {
 			
-		final Text heading = new Text("Welcome to the Mentcare Health Portal");
-				 heading.setFont(new Font("Arial", 30));
-				
-
+			
+			//Start Page
+			final Text heading = new Text("Welcome to the Mentcare Health Portal");
+			heading.setFont(new Font("Arial", 30));
+						
 			
 			SplitPane split = new SplitPane();
-				//everything for the sign up half of the screen
-					Label needAnAccount = new Label("Need an account?");
-					needAnAccount.setFont(new Font("Arial", 15));
-
-					
-					GridPane gridPane = new GridPane(); //to store labels and corresponding text fields together
-
-					Label signUpFirstLabel = new Label("First Name:");
-					TextField signUpFirstField = new TextField();
-
-					Label signUpLastLabel = new Label("Last Name:");
-					TextField signUpLast = new TextField();
-					
-					Label dateOfBirthLabel = new Label("Date of Birth");
-					DatePicker dateOfBirth = new DatePicker();
-					
-					
-					
-						//putting labels and corresponding fields into grid
-						gridPane.add(signUpFirstLabel, 0, 0, 1, 1);
-				        gridPane.add(signUpFirstField, 1, 0, 1, 1);
-				        gridPane.add(signUpLastLabel, 0, 1, 1, 1);
-				        gridPane.add(signUpLast, 1, 1, 1, 1);
-				        gridPane.add(dateOfBirthLabel, 0, 2, 1, 1);
-				        gridPane.add(dateOfBirth, 1, 2, 1, 1);
-					
-			        	//spacing out the nodes
-				        gridPane.setVgap(20);
-					    gridPane.setHgap(20);
-
-			        
-					//sign up button
-			        Button signUpButton = new Button("Sign Up");
-			        
-					//container for hold all the sign-up items
-					VBox vContainerSignUp = new VBox(needAnAccount, gridPane, signUpButton);
-					
-						//adding margins to create the visuals we want for the app
-						vContainerSignUp.setMargin(needAnAccount, new Insets(20, 20, 0, 120));  			
-						vContainerSignUp.setMargin(gridPane, new Insets(10, 20, 5, 5));  			
-						vContainerSignUp.setMargin(signUpButton, new Insets(20, 20, 10, 220));  			
-
-					
-					
-					//container for holding all signup nodes
-					Pane signUpPane = new Pane(vContainerSignUp);
-						
-						//styling for the container 
-						signUpPane.setPadding(new Insets(500, 0, 500, 50));
-						signUpPane.setStyle("-fx-background-color: gray;");
-
-				//end of sign up portion 
-						
-						
+			//container for holding all signup nodes
+			signUp signup = new signUp();
+			
+			Pane signUpPane = signup.createSignUp();
 				
-				//start of sign in half of the screen
-						
-					//top text	
-					Label signIn = new Label("Sign In");
-						signIn.setFont(new Font("Arial", 15));
+			//styling for the container 
+			signUpPane.setPadding(new Insets(500, 0, 500, 50));
+			signUpPane.setStyle("-fx-background-color: gray;");
 
-					
-					
-					//all the labels and textfield needed for login
-					Label signInFirstLabel = new Label("First Name:");
-					TextField signInFirstField = new TextField();
-					
+			//end of sign up portion 
 
-					Label signInLastLabel = new Label("Last Name:");
-					TextField signInLastField = new TextField();
-				
-					Label dateOfBirthLabelSignIn = new Label("Date of Birth");
-					DatePicker dateOfBirthSignIn = new DatePicker();
-					
-					//grid to hold the labels and text together
-					GridPane signInGridPane = new GridPane();
-					
-						//adding lsbels and textfield to grid
-						signInGridPane.add(signInFirstLabel, 0, 0, 1, 1);
-						signInGridPane.add(signInFirstField, 1, 0, 1, 1);
-						signInGridPane.add(signInLastLabel, 0, 1, 1, 1);
-						signInGridPane.add(signInLastField, 1, 1, 1, 1);
-						signInGridPane.add(dateOfBirthLabelSignIn, 0, 2, 1, 1);
-						signInGridPane.add(dateOfBirthSignIn, 1, 2, 1, 1);
-						
-						//spacing out nodes
-					    signInGridPane.setHgap(20);
-					    signInGridPane.setVgap(20);
-
-				    
-					 //instructions for user to pick their relationship
-			        Label identifierLabel = new Label("Are You a:");
-			        
-			        //radio button for each of the categories of relationship
-			        RadioButton patientRadio = new RadioButton("Patient");
-			        RadioButton doctorRadio = new RadioButton("Doctor");
-			        RadioButton nurseRadio = new RadioButton("Nurse");
-			        
-			        ToggleGroup group = new ToggleGroup();
-			        
-			        patientRadio.setToggleGroup(group);
-			        doctorRadio.setToggleGroup(group);
-			        nurseRadio.setToggleGroup(group);
-
-			        
-			        //hbox to contain the radio buttons in a single row
-			        HBox hboxForRadio = new HBox(patientRadio, doctorRadio, nurseRadio);
-			        	
-			        	//space out the buttons
-			        	hboxForRadio.setSpacing(20);
-					
-			        //button to login user
-			        Button loginButton = new Button("Login");
-			        loginButton.setOnAction(e -> primaryStage.setScene(scene2));   
-
-			        
-			        //grid for radios
-			        GridPane bottomGrid = new GridPane();
-			        	
-			        	//add radios and set horizontal spacing 
-				        bottomGrid.add(hboxForRadio, 1, 1, 1, 1);
-				        bottomGrid.setHgap(50);
-			        
-			        //container holding all Sign In items
-			        VBox signInVBox = new VBox(signIn, signInGridPane,identifierLabel,bottomGrid,loginButton);
-			        
-			        //signInVBox.setOnAction(e -> primaryStage.setScene(scene2));   
-
-				       
-			        	//spacing each item to style them correctly
-			        	signInVBox.setMargin(signIn, new Insets(20, 20, 0, 150));  			
-				        signInVBox.setMargin(signInGridPane, new Insets(10, 20, 20, 5));  
-				        signInVBox.setMargin(identifierLabel, new Insets(5, 5, 10, 5));  			
-				        signInVBox.setMargin(loginButton, new Insets(30, 5, 5, 230));  			
-
-
-			        //pane holding the signin vbox
-					Pane signInPane = new Pane(signInVBox);
+			//pane holding the signin vbox
+			signIn signin = new signIn();
+		
+			Pane signInPane = signin.createSignIn(primaryStage, NurseMyAccountScene, sceneMain, doctorViewScene, scene2);
 
 				//add sign in and sign up to main split pane	
 			split.getItems().addAll(signInPane, signUpPane);
-				
-				
 			
-				
-			//create the main vbox that contain the split and heading panes
+			
+			
+			//create the main vbox that contain the spli't and heading panes
 			VBox vboxxing = new VBox(heading, split);
 			
 				//styling
@@ -197,221 +79,196 @@ public class launchMain extends Application {
 			//add to the scene that is 636 by 400
 			Scene sceneMain = new Scene(vboxxing,636,400);
 			
+			//end of login gui
 			
-//patient user information screen
-			
-	        Button myAccountButtonPatient = new Button("My Account");
-	        
-	        	myAccountButtonPatient.setMinSize(180, 50);
-	        	
-	        Button medicalRecordsPatient = new Button("Medical Records");
-	        
-	        	medicalRecordsPatient.setMinSize(180, 50);
-	        	
-	        	medicalRecordsPatient.setOnAction(e -> primaryStage.setScene(scene3));   
-
-	        
-	        Button appointmentsButtonPatient = new Button("Appointments");
-	        	appointmentsButtonPatient.setMinSize(180, 50);
-	        	appointmentsButtonPatient.setOnAction(e -> primaryStage.setScene(scene4));   
-
-	        	
-	        Button messageButtonPatient = new Button("Message");
-	        	messageButtonPatient.setMinSize(180, 50);
-		
-
-
-			VBox buttonContainer = new VBox(myAccountButtonPatient, medicalRecordsPatient,appointmentsButtonPatient, messageButtonPatient);
-			
-			
-			Text userInfoHeading = new Text("User Information");
-			userInfoHeading.setFont(new Font("Arial", 30));
-			
-			
-			
-			Label firstNameLabel = new Label("First Name");
-			TextField firstNameField = new TextField();
-			
-			Label lastNameLabel = new Label("Last Name");
-			TextField lastNameField = new TextField();
-			
-			Label dobPatient = new Label("Date of Birth");
-			DatePicker dobPatientCalendar = new DatePicker();
-					dobPatientCalendar.setMaxSize(125, 25);
-					
-			Label genderPatient = new Label("Gender");
-			TextField genderPatientDrop = new TextField();
-			
-			GridPane userNameGrid = new GridPane();
-			
-			userNameGrid.add(firstNameLabel, 0, 0, 1, 1);
-			userNameGrid.add(firstNameField, 1, 0, 1, 1);
-			
-			userNameGrid.add(lastNameLabel, 0, 1, 1, 1);
-			userNameGrid.add(lastNameField, 1, 1, 1, 1);
-			
-			userNameGrid.add(dobPatient, 2, 0, 1, 1);
-			userNameGrid.add(dobPatientCalendar, 3, 0, 1, 1);
-			
-			
-//			userNameGrid.add(genderPatient, 0, 3, 1, 1);
-//			userNameGrid.add(lastNameField, 1, 3, 1, 1);
-			userNameGrid.setVgap(5);
-			userNameGrid.setHgap(7);
-			
-			userNameGrid.setMargin(firstNameLabel, new Insets(20, 0, 0, 5)); 
-			userNameGrid.setMargin(firstNameField, new Insets(20, 0, 0, 5)); 
-			
-			userNameGrid.setMargin(dobPatient, new Insets(20, 0, 0, 5)); 
-			userNameGrid.setMargin(dobPatientCalendar, new Insets(20, 0, 0, 5)); 
-
-			userNameGrid.setMargin(lastNameLabel, new Insets(0, 0, 0, 5));  
-			userNameGrid.setMargin(lastNameField, new Insets(0, 0, 0, 5));  
-
-			
-			Separator separator2 = new Separator();
-			separator2.setOrientation(Orientation.HORIZONTAL);
-			
-			Label contactInfoLabel = new Label("Contact Information");
-			contactInfoLabel.setUnderline(true);
-			contactInfoLabel.setFont(new Font("Arial", 15));
-			
-			Label patientPhoneNumberLabel = new Label("Phone Number:");
-			TextField patientPhoneNumberText = new TextField();
-			
-			Label emailLabel = new Label("Email:");
-			TextField emailText = new TextField();
-			
-			GridPane contactGrid = new GridPane();
-			
-			contactGrid.add(patientPhoneNumberLabel, 0, 0, 1, 1);
-			contactGrid.add(patientPhoneNumberText,  1, 0, 1, 1);
-			
-			contactGrid.add(emailLabel, 0, 1, 1, 1);
-			contactGrid.add(emailText, 1, 1, 1, 1);
-			
-			contactGrid.setVgap(5);
-			contactGrid.setHgap(7);
-			
-			contactGrid.setMargin(patientPhoneNumberLabel, new Insets(5, 0, 0, 10));
-			contactGrid.setMargin(patientPhoneNumberText, new Insets(5, 0, 0, 10)); 
-
-			contactGrid.setMargin(emailLabel, new Insets(5, 0, 0, 10)); 
-			contactGrid.setMargin(emailText, new Insets(5, 0, 0, 10)); 
-
-
-
-			Separator separator1 = new Separator();
-			
-			
-			Label pharmacyInfoLabel = new Label("Pharmacy Information");
-			pharmacyInfoLabel.setUnderline(true);
-			pharmacyInfoLabel.setFont(new Font("Arial", 15));
-			
-			
-			Label pharamacyLabel = new Label("Pharmacy:");
-			TextField pharmacyField = new TextField();
-			
-			HBox pharmacyHBox = new HBox(pharamacyLabel, pharmacyField);
-			pharmacyHBox.setMargin(pharamacyLabel, new Insets(5, 0, 0, 10));
-			pharmacyHBox.setMargin(pharmacyField, new Insets(5, 0, 0, 10));
-
-
-			
-			Button saveChangesButton = new Button("Save Changes");
-
-
-
-			
-			
-			VBox userInfoScreen = new VBox(userInfoHeading, userNameGrid, separator2, contactInfoLabel, contactGrid,separator1, 
-											pharmacyInfoLabel, pharmacyHBox, saveChangesButton);
-			userInfoScreen.setSpacing(10);
-			
-			userInfoScreen.setMargin(contactInfoLabel, new Insets(5, 0, 0, 150));
-			userInfoScreen.setMargin(pharmacyInfoLabel, new Insets(5, 0, 0, 148));
-			userInfoScreen.setMargin(saveChangesButton, new Insets(5, 0, 0, 353));
-			
-			Separator screenSplitter = new Separator();
-			screenSplitter.setOrientation(Orientation.VERTICAL);
-			screenSplitter.setPrefHeight(80);
-
-
-
-
-			HBox screenSplit = new HBox(buttonContainer,screenSplitter, userInfoScreen);
-					
-			Pane pane = new Pane();
-			pane.getChildren().addAll(screenSplit);
-			
-			scene2 = new Scene(pane,640,400);
-			
+			//mssg GUI
+			mssgGUI message = new mssgGUI();
+			HBox messageHbox = message.createMessageGUI();
+			scene5 = new Scene(messageHbox,640,400);
 			primaryStage.setScene(sceneMain);
 			primaryStage.show();
+			//end mssg gui
 			
+			//appt history
+			apptHist appthistory = new apptHist();
+			HBox appointmentsPane = appthistory.createAppHist();
+			scene4 = new Scene(appointmentsPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			//end appt history
 			
-			
-			
-			///Patient Medical Records
-	        Label medicalRecordsLabel = new Label("Medical Records");
-	        
-	        Label currentPerscriptionsLabel = new Label("Current Perscriptions");
-	        
-	        TableView recordsTable = new TableView();
-	        
-	        TableColumn medicationNameCol = new TableColumn("Medication");
-	        TableColumn instructionsCol = new TableColumn("Instructions");
-	        recordsTable.prefHeight(5);
-	        
-	        recordsTable.getColumns().addAll(medicationNameCol, instructionsCol);
-	        
-	        
-	        VBox medicalRecordsVBox = new VBox(medicalRecordsLabel, recordsTable);
-        	
-	        medicalRecordsVBox.setMargin(medicalRecordsLabel, new Insets(5, 0, 0, 150));
-	        medicalRecordsVBox.setMargin(recordsTable, new Insets(5, 0, 0, 10));
-
-	        
-
-
-        	Pane medicalRecordsPane = new Pane(medicalRecordsVBox);
-        	
-        	
+			///Patient Medical Records 
+			medRecords medrecords = new medRecords();
+			HBox medicalRecordsPane = medrecords.createMedRecords(primaryStage, scene2, scene3, scene4, scene5);
         	scene3 = new Scene(medicalRecordsPane,640,400);
-
-        	///Patient Medical Records
-	        Label appointmentsLabel = new Label("Appointments");
-	        appointmentsLabel.setFont(new Font("Arial", 15));
-	        
-	        Label pastAppointmentsLabel = new Label("Past Appointments");
-	        
-	        TableView appointmentsTable = new TableView();
-	        
-	        TableColumn dateColumn = new TableColumn("Date");
-	        TableColumn TimeCol = new TableColumn("Time");
-	        TableColumn reasonCol = new TableColumn("Reason");
-	        TableColumn doctorCol = new TableColumn("Doctor");
-
-
-	        recordsTable.prefHeight(5);
-	        
-	        recordsTable.getColumns().addAll(dateColumn, TimeCol,reasonCol,doctorCol);
-	        
-	        
-	        VBox appointmentsVBox = new VBox(appointmentsLabel, appointmentsTable);
-        	
-	        appointmentsVBox.setMargin(medicalRecordsLabel, new Insets(5, 0, 0, 150));
-	        appointmentsVBox.setMargin(recordsTable, new Insets(5, 0, 0, 10));
-
-	        
-
-
-        	Pane appointmentsPane = new Pane(appointmentsVBox);
-        	
-        	scene4 = new Scene(appointmentsPane,640,400);
-			
+        	primaryStage.setScene(sceneMain);
+			primaryStage.show();
+        	//end of medicalrecord gui
+     	
+			//patient user information screen
+			userInfo userinfo = new userInfo();
+			HBox pane = userinfo.createUserInfo();
+			scene2 = new Scene(pane,640,400);
 			primaryStage.setScene(sceneMain);
 			primaryStage.show();
+			//end of userInfo gui
+			
+			
+			//patient information for doctor screen
+			doctorPatientInfo doctorPatientInfo = new doctorPatientInfo();
+			ScrollPane doctorPatientInfoPane = doctorPatientInfo.createDoctorPatientInfo();
+			DoctorPatientInfo = new Scene(doctorPatientInfoPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			//end of userInfo gui
+			
+			AddHealthInfoView AddHealthInfoView = new AddHealthInfoView();
+			Pane AddHealthInfoViewPane = AddHealthInfoView.createAddHealthInfoView();
+			AddHealthInfoViewScene = new Scene(AddHealthInfoViewPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			//doctor information View information screen
+			doctorView doctorView = new doctorView();
+			Pane doctorViewPane = doctorView.createDoctorInfo();
+			doctorViewScene = new Scene(doctorViewPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			//end of doctorView gui
+			
+			DoctorPerscriptions DoctorPerscriptions = new DoctorPerscriptions();
+			Pane DoctorPerscriptionsPane = DoctorPerscriptions.createDoctorPerscriptions();
+			DoctorPerscriptionScene = new Scene(DoctorPerscriptionsPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			calendarDoctor calendarDoctor = new calendarDoctor();
+			Pane CalendarDoctorPane = calendarDoctor.createCalendarDoctor();
+			DoctorCalendarScene = new Scene(CalendarDoctorPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			DoctorMessagesView DoctorMessagesView = new DoctorMessagesView();
+			ScrollPane DoctorMessagesViewPane = DoctorMessagesView.createMessageDoctorGUI();
+			DoctorMessagesViewScene = new Scene(DoctorMessagesViewPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			AddOrderView AddOrderView1 = new AddOrderView();
+			Pane AddOrderViewPane = AddOrderView1.createAddOrderView();
+			AddOrderViewPaneScene = new Scene(AddOrderViewPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			NurseMyAccount NurseMyAccount = new NurseMyAccount();
+			Pane NurseMyAccountPane = NurseMyAccount.createNurseMyAccount();
+			NurseMyAccountScene = new Scene(NurseMyAccountPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			NursePatientInfo NursePatientInfo = new NursePatientInfo();
+			ScrollPane NursePatientInfoPane = NursePatientInfo.createNursePatientInfo();
+			NursePatientInfoScene = new Scene(NursePatientInfoPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			NurseMessage NurseMessage = new NurseMessage();
+			ScrollPane NurseMessagePane = NurseMessage.createNurseMessage();
+			NurseMessageScene = new Scene(NurseMessagePane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			NurseCalendar NurseCalendar = new NurseCalendar();
+			HBox NurseCalendarPane = NurseCalendar.createNurseCalendar();
+			NurseCalendarScene = new Scene(NurseCalendarPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+			
+			NurseAddInfo NurseAddInfo = new NurseAddInfo();
+			ScrollPane NurseAddInfoPane = NurseAddInfo.createNurseAddInfo();
+			NurseAddInfoScene = new Scene(NurseAddInfoPane,640,400);
+			primaryStage.setScene(sceneMain);
+			primaryStage.show();
+
+			//set scene transitions
+			signin.setLoginAction(primaryStage, NurseMyAccountScene, scene2, doctorViewScene, sceneMain);
+			
+			message.setMyAccountAction(primaryStage, scene2);
+			message.setMedRecordsAction(primaryStage, scene3);
+			message.setApptAction(primaryStage, scene4);
+			
+			userinfo.setApptAction(primaryStage, scene4);
+			userinfo.setMedRecordsAction(primaryStage, scene3);
+			userinfo.setMssgAction(primaryStage, scene5);
+			
+			medrecords.setMyAccountAction(primaryStage, scene2);
+			medrecords.setApptAction(primaryStage, scene4);
+			medrecords.setMssgAction(primaryStage, scene5);
+			
+			appthistory.setMyAccountAction(primaryStage, scene2);
+			appthistory.setMedRecordsAction(primaryStage, scene3);
+			appthistory.setApptAction(primaryStage, scene4);
+			appthistory.setMssgAction(primaryStage, scene5);
+			
+			doctorView.setpatientInfoButton(primaryStage, DoctorPatientInfo);
+			doctorView.setperscriptionButton(primaryStage, DoctorPerscriptionScene);
+			doctorView.setCalendarButton(primaryStage, DoctorCalendarScene);
+			doctorView.setMessageButton(primaryStage, DoctorMessagesViewScene);
+			
+			doctorPatientInfo.setAddHealthInfoButton(primaryStage, AddHealthInfoViewScene);
+			doctorPatientInfo.setMessageButton(primaryStage, DoctorMessagesViewScene);
+			doctorPatientInfo.setCalendarButton(primaryStage, DoctorCalendarScene);
+			doctorPatientInfo.setmyAccountButtonDoctor(primaryStage, doctorViewScene);
+			doctorPatientInfo.setperscriptionButton(primaryStage, DoctorPerscriptionScene);
+			
+			DoctorPerscriptions.setpatientInfoButton(primaryStage, DoctorPatientInfo);
+			DoctorPerscriptions.setMessageButton(primaryStage, DoctorMessagesViewScene);
+			DoctorPerscriptions.setCalendarButton(primaryStage, DoctorCalendarScene);
+			DoctorPerscriptions.setmyAccountButtonDoctor(primaryStage, doctorViewScene);
+			DoctorPerscriptions.setorderPerscriptionButton(primaryStage, AddOrderViewPaneScene);
+			
+			DoctorMessagesView.setpatientInfoButton(primaryStage, DoctorPatientInfo);
+			DoctorMessagesView.setperscriptionButton(primaryStage, DoctorPerscriptionScene);
+			DoctorMessagesView.setCalendarButton(primaryStage, DoctorCalendarScene);
+			DoctorMessagesView.setmyAccountButtonDoctor(primaryStage, doctorViewScene);
+			
+			calendarDoctor.setpatientInfoButton(primaryStage, DoctorPatientInfo);
+			calendarDoctor.setperscriptionButton(primaryStage, DoctorPerscriptionScene);
+			calendarDoctor.setMessageButton(primaryStage, DoctorMessagesViewScene);
+			calendarDoctor.setmyAccountButtonDoctor(primaryStage, doctorViewScene);
+
+			AddHealthInfoView.setbackButton(primaryStage, DoctorPatientInfo);
+			AddHealthInfoView.setupdateButton(primaryStage, DoctorPatientInfo);
+
+			
+			AddOrderView1.setPlaceOrder(primaryStage, DoctorPerscriptionScene);
+			AddOrderView1.setCancelOrder(primaryStage, DoctorPerscriptionScene);
+			
+			
+			NurseMyAccount.setpatientInfoButton(primaryStage, NursePatientInfoScene);
+			NurseMyAccount.setCalendarButton(primaryStage, NurseCalendarScene);
+			NurseMyAccount.setaddInfo(primaryStage, NurseAddInfoScene);
+			NurseMyAccount.setMessageButton(primaryStage, NurseMessageScene);
+			
+			NursePatientInfo.setmyAccountButtonNurse(primaryStage, NurseMyAccountScene);
+			NursePatientInfo.setCalendarButton(primaryStage, NurseCalendarScene);
+			NursePatientInfo.setAddInfoButton(primaryStage, NurseAddInfoScene);
+			NursePatientInfo.setMessageButton(primaryStage, NurseMessageScene);
+
+			NurseMessage.setmyAccountButtonNurse(primaryStage, NurseMyAccountScene);
+			NurseMessage.setCalendarButton(primaryStage, NurseCalendarScene);
+			NurseMessage.setaddInfo(primaryStage, NurseAddInfoScene);
+			NurseMessage.setpatientInfoButton(primaryStage, NursePatientInfoScene);
+			
+			NurseCalendar.setmyAccountButtonNurse(primaryStage, NurseMyAccountScene);
+			NurseCalendar.setMessageButton(primaryStage, NurseMessageScene);
+			NurseCalendar.setaddInfo(primaryStage, NurseAddInfoScene);
+			NurseCalendar.setpatientInfoButton(primaryStage, NursePatientInfoScene);
+			
+			NurseAddInfo.setmyAccountButtonNurse(primaryStage, NurseMyAccountScene);
+			NurseAddInfo.setMessageButton(primaryStage, NurseMessageScene);
+			NurseAddInfo.setCalendarButton(primaryStage, NurseCalendarScene);
+			NurseAddInfo.setpatientInfoButton(primaryStage, NursePatientInfoScene);
 	    }
 		
 		
