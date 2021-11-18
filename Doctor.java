@@ -26,6 +26,10 @@ public class Doctor
 		public int getPhoneNum() {
 			return phoneNum;
 		}
+	
+		public int getEmployeeID() {
+			return employeeID;
+		}
 		
 		public void setFirstName(String fn) {
 			 firstName = fn;
@@ -39,7 +43,10 @@ public class Doctor
 			 email = e;
 		}
 		
-		
+		public void setEmployeeID(int id) {
+			 employeeID = id;
+		}	
+	
 		public void setPhoneNum(int pn) {
 			 phoneNum = pn;
 		}
