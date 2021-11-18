@@ -1,10 +1,11 @@
 import Appointments;
-//Contains all atributes about the patient and allows said
+//Contains all attributes about the patient and allows said
 //information to be changes, can also return appointments for patient
 //from the appointments class
 public class Patient
 {
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String email;
 	private String vitals;
 	private String prescription;
@@ -14,13 +15,17 @@ public class Patient
 	
   //TEMP, will get appointments for patient from Appointments class when that class is fully implemented
   public void getAppointments() {
-    apps.toString(name);
+    apps.toString(firstName, lastName);
   }
 	
 	//getters and setters for all patient information
 	
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
 	}
 	
 	public String getEmail() {
@@ -39,8 +44,12 @@ public class Patient
 		return phoneNum;
 	}
 	
-	public void setName(String n) {
-		 name = n;
+	public void setFirstName(String fn) {
+		 firstName = fn;
+	}
+	
+	public void setLastName(String ln) {
+		lastName = ln
 	}
 	
 	public void setEmail(String e) {
