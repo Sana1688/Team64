@@ -9,6 +9,7 @@ public class Patient
 	private String email;
 	private String vitals;
 	private String prescription;
+	private int DOB; //date of birth in MMDDYY 
 	private int phoneNum;
 	
 	public Appointments apps;
@@ -40,6 +41,10 @@ public class Patient
 		return prescription;
 	}
 	
+	public int getDOB() {
+		return DOB;
+	}
+	
 	public int getPhoneNum() {
 		return phoneNum;
 	}
@@ -62,6 +67,10 @@ public class Patient
 	
 	public void setPrescription(String p) {
 		 prescription = p;
+	}
+	
+	public void setDOB(int d) {
+		 DOB = d;
 	}
 	
 	public void setPhoneNum(int pn) {
