@@ -5,7 +5,6 @@ public class Nurse
 	private String firstName;
 	private String lastName;
 	private String email;
-	private int DOB;
 	private int employeeID;
 	private int phoneNum;
 	
@@ -27,10 +26,6 @@ public class Nurse
 		public int getPhoneNum() {
 			return phoneNum;
 		}
-
-		public int getDOB() {
-			return DOB;
-		}
 	
 		public int getEmployeeID() {
 			return employeeID;
@@ -51,10 +46,6 @@ public class Nurse
 		
 		public void setPhoneNum(int pn) {
 			 phoneNum = pn;
-		}
-	
-		public void setDOB(int d) {
-		 DOB = d;
 		}
 	
 		public void setEmployeeID(int id) {
