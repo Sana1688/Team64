@@ -26,6 +26,10 @@ public class Nurse
 		public int getPhoneNum() {
 			return phoneNum;
 		}
+	
+		public int getEmployeeID() {
+			return employeeID;
+		}
 		
 		public void setFirstName(String fn) {
 			 firstName = fn;
@@ -42,5 +46,9 @@ public class Nurse
 		
 		public void setPhoneNum(int pn) {
 			 phoneNum = pn;
+		}
+	
+		public void setEmployeeID(int id) {
+			 employeeID = id;
 		}
 }
