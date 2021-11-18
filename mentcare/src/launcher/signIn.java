@@ -2,7 +2,15 @@ package launcher;
 
 import javafx.beans.value.ChangeListener;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.util.Scanner;
+
+import javax.swing.JTextField;
+
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,6 +40,9 @@ public class signIn {
 	private RadioButton doctorRadio;
 	private RadioButton selectedRadioButton;
 	private String groupValue;
+	private TextField signInFirstField;
+	private TextField signInLastField; 
+	private DatePicker dateOfBirthSignIn;
 
 	
 	public Pane createSignIn(Stage primaryStage, Scene NurseMyAccountScene, Scene sceneMain, Scene doctorViewScene, Scene scene2)
@@ -48,14 +59,14 @@ public class signIn {
 
 		//all the labels and textfield needed for login
 		Label signInFirstLabel = new Label("First Name:");
-		TextField signInFirstField = new TextField(); //first name textfield
+		signInFirstField = new TextField(); //first name textfield
 		
 
 		Label signInLastLabel = new Label("Last Name:");
-		TextField signInLastField = new TextField(); //last name text field
+		signInLastField = new TextField(); //last name text field
 	
 		Label dateOfBirthLabelSignIn = new Label("Date of Birth");
-		DatePicker dateOfBirthSignIn = new DatePicker(); //birthdate picker
+		dateOfBirthSignIn = new DatePicker(); //birthdate picker
 		
 		//grid to hold the labels and text together
 		GridPane signInGridPane = new GridPane();
@@ -104,6 +115,7 @@ public class signIn {
                     }
             });
         
+             
        
         
         //hbox to contain the radio buttons in a single row
@@ -114,6 +126,7 @@ public class signIn {
 		
         //button to login user
         loginButton = new Button("Login"); //login button
+        
         
         //grid for radios
         GridPane bottomGrid = new GridPane();
@@ -138,16 +151,63 @@ public class signIn {
 		signInVBox.setMargin(loginButton, new Insets(20, 5, 5, 230));  	
 		
 		Pane signInPane = new Pane(signInVBox);
+		error.setVisible(false);
+
 		
 		return signInPane;
-		
-		
-		
-	}
-
 	
+	}
+		
+	
+	//EventHandler <ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+	    public void actionPerformed(ActionEvent event)
+	   {
+	     File inputFile = new File("USERDATA.txt");
+	   
+	     
+	     String firstnameInput = signInFirstField.getText();
+	     String NameInput = signInLastField.getText();
+	     LocalDate date = dateOfBirthSignIn.getValue();
+	     String DOBInput = date.toString();
+	     
+	     try {
+	            Scanner in = new Scanner(new File("USERDATA.txt"));
+	            while (in.hasNextLine())
+	            {
+	            String s = in.nextLine();  
+	              String[] sArray = s.split(" ");
+	              
+	              System.out.println(sArray[0]);
+	              System.out.println(sArray[1]);
+	              System.out.println(sArray[2]);
+	              
+	              if (firstnameInput == sArray[0] && NameInput == sArray[1] && DOBInput == sArray[2])
+	              {
+	            	  System.out.print("Log in sucessful");
+	            	  
+	              }
+	              else
+	              {
+	            	  System.out.print("Log in failed");
+	              }
+	            }
+	            
+	            in.close();
+	            
+	        } catch (FileNotFoundException e) {
+	            System.out.print("EROOR");
+	        }
+	     
+	 	loginButton.setOnAction((EventHandler<javafx.event.ActionEvent>) event);
+
+	   }
+//	};
+	
+
+
 	public void setLoginAction(Stage primaryStage, Scene NurseMyAccountScene, Scene scene2, Scene doctorViewScene, Scene sceneMain) 
 	{
+		
 		 group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
 	            public void changed(ObservableValue<? extends Toggle> ov,
 	                    Toggle old_toggle, Toggle new_toggle) {
@@ -166,6 +226,8 @@ public class signIn {
 	                        }                
 	                    }
 	            });
+		 
+
 	}
 
 }
